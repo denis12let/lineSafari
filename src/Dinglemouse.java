@@ -1,19 +1,24 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Dinglemouse {
+    public static int linesCounter;
     public static void main(String[] args) {
+        Dinglemouse.linesCounter = 0;
         System.out.println("Hello world!");
         final char grid[][] = makeGrid(new String[] {
-                "    +-----+     ",
-                "    |+---+|     ",
-                "    ||+-+||     ",
-                "    |||X+||     ",
-                "    X|+--+|     ",
-                "     +----+     "
+                "      +------+",
+                "      |      |",
+                "X-----+------+",
+                "      |       ",
+                "      X       ",
         });
         System.out.println(line(grid));
     }
 
     public static boolean line(final char [][] grid) {
         Pair coordX = new Pair(); //коорды первого найденного X
+//        ArrayList<Boolean> linesCorrects = new ArrayList<>(); //счетчик X и осмотр правильности направлений
         for (int i = 0; i < grid.length; i++){
             for (int j = 0; j < grid[0].length; j++){
                if (grid[i][j] == 'X'){
@@ -22,142 +27,84 @@ public class Dinglemouse {
                    Pair.firstX = coordX;
                    boolean result = lineSearch(grid, coordX, new Pair(-1, -1, '0'));
                    return result;
+//                   linesCorrects.add(result);
                }
             }
         }
-        return false;
+//        if (linesCorrects.size() % 2 != 0) return false;
+//        long trueCount = linesCorrects.stream()
+//                .filter(el -> el == true)
+//                .count();
+//        if (trueCount < linesCorrects.size() / 2) return false;
+        return true;
     }
 
     public static boolean lineSearch(char [][] grid, Pair currentPos, Pair oldPos){
         int xCoord = currentPos.getX(), yCoord = currentPos.getY(), count = 0;
         int oldXDiff = oldPos.getX() - xCoord, oldYDiff = oldPos.getY() - yCoord;
-        if (grid[xCoord][yCoord] == ' ') return false;
-        char currentChar = grid[xCoord][yCoord], oldChar = oldPos.getX() != -1 ? '0' : oldPos.getC();
-
-        if (currentChar == '-') {
+        char currentChar = grid[xCoord][yCoord], oldChar = oldPos.getX() != -1 ? oldPos.getC() : 'X';
+        if (currentChar == ' ') return false;
+        else if (currentChar == '-') {
             if (oldChar == '|') return false;
             if ((oldChar == '-' || oldChar == '+' || oldChar == 'X') && oldYDiff == 0) return false;
         }else if (currentChar == '|') {
             if (oldChar == '-') return false;
             if ((oldChar == '|' || oldChar == '+' || oldChar == 'X') && oldXDiff == 0) return false;
         }else if (currentChar == '+') {
-            if (oldChar == '-' && oldXDiff == 0) return false;
-            if (oldChar == '|' && oldYDiff == 0) return false;
+            if (oldChar == '-' && oldYDiff == 0) return false;
+            if (oldChar == '|' && oldXDiff == 0) return false;
         }else if (currentChar == 'X'){
             if (oldPos.getX() != -1){
-                if (charArrayExamination(grid)) {
-                    return true;
-                } else {
-                    return false;
-                }
-            }else{
-                if (oldChar == '-' && oldXDiff == 0) return false;
-                if (oldChar == '|' && oldYDiff == 0) return false;
+                if (oldChar == '-' && oldYDiff == 0) return false;
+                if (oldChar == '|' && oldXDiff == 0) return false;
                 if (oldChar == 'X') return true;
-            }
-        }
-
-//        if (currentChar == 'X'){
-//            if (Pair.firstX.getX() != currentPos.getX() || Pair.firstX.getY() != currentPos.getY()) {
+//                if (yCoord > 0){
+//                    if (grid[xCoord][yCoord - 1] != ' ') return false;
+//                }
+//                if (yCoord < grid[0].length - 1){
+//                    if (grid[xCoord][yCoord + 1] != ' ') return false;
+//                }
+//                if (xCoord > 0){
+//                    if (grid[xCoord - 1][yCoord] != ' ') return false;
+//                }
+//                if (yCoord < grid.length){
+//                    if (grid[xCoord + 1][yCoord] != ' ') return false;
+//                }
+//                return true;
+                return true;
 //                if (charArrayExamination(grid)) {
 //                    return true;
 //                } else {
 //                    return false;
 //                }
-//            }
-//           else{
-//                grid[xCoord][yCoord] = ' ';
-//                if (yCoord > 0 && oldYDiff != -1) {
-//                    if (grid[xCoord][yCoord - 1] == '-' || grid[xCoord][yCoord - 1] == '+'){
-//                        return lineSearch(grid, new Pair(xCoord, yCoord - 1, currentChar), new Pair(xCoord, yCoord, currentChar));
-//                    }
-//                }
-//                if (yCoord < grid[0].length - 1 && oldYDiff != 1){
-//                    if (grid[xCoord][yCoord + 1] == '-' || grid[xCoord][yCoord + 1] == '+'){
-//                        return lineSearch(grid, new Pair(xCoord, yCoord + 1, currentChar), new Pair(xCoord, yCoord, currentChar));
-//                    }
-//                }
-//                if (xCoord > 0 && oldXDiff != -1) {
-//                    if (grid[xCoord - 1][yCoord] == '|' || grid[xCoord - 1][yCoord] == '+'){
-//                        return lineSearch(grid, new Pair(xCoord - 1, yCoord, currentChar), new Pair(xCoord, yCoord, currentChar));
-//                    }
-//                }
-//                if (xCoord < grid.length - 1 && oldXDiff != 1) {
-//                    if (grid[xCoord + 1][yCoord] == '|' || grid[xCoord + 1][yCoord] == '+'){
-//                        return lineSearch(grid, new Pair(xCoord + 1, yCoord, currentChar), new Pair(xCoord, yCoord, currentChar));
-//                    }
-//                }
-//            }
-//        }
-        if ((oldChar == '-' && currentChar == '|') || (oldChar == '|' && currentChar == '-')) return false;
-        if ((yCoord > 0 && oldYDiff != -1) && (currentChar != '+' || (currentChar == '+' && oldPos.getY() == currentPos.getY()))){
-            // 2 условие - Чтоб предыдущий и следующий за + элементы не были на одном уровне
-            grid[xCoord][yCoord] = ' ';
-            Pair newPos = new Pair(xCoord, yCoord - 1, currentChar);
-            if (currentChar == '+' && grid[xCoord][yCoord - 1] == '|') count = Integer.MAX_VALUE;
-            if (grid[xCoord][yCoord - 1] == 'X' && currentChar == '-') {
-                if (charArrayExamination(grid)){ //а если плюсы над палкой типо //////   +---+
-                    return true;//////////////////////////////////////////////////////   -X--+
-                }
-                return false; //заглушка потом убрать
-               // count++;
             }
-            else if ((grid[xCoord][yCoord - 1] == currentChar && currentChar == '-') || (grid[xCoord][yCoord - 1] == '+' && currentChar != '|') || currentChar == 'X' || currentChar == '+'){
+        }
+        grid[xCoord][yCoord] = ' ';
+        if (yCoord > 0 && oldYDiff != -1){
+            Pair newPos = new Pair(xCoord, yCoord - 1, currentChar);
+            if (currentChar != '+' || oldXDiff != 0){
                 if(lineSearch(grid, newPos, new Pair(xCoord, yCoord, currentChar))) count++;
             }
-            grid[xCoord][yCoord] = currentChar;
         }
-        if ((yCoord < grid[0].length - 1 && oldYDiff != 1) && (currentChar != '+' || (currentChar == '+' && oldPos.getY() == currentPos.getY()))){
-            grid[xCoord][yCoord] = ' ';
+        if (yCoord < grid[0].length - 1 && oldYDiff != 1){
             Pair newPos = new Pair(xCoord, yCoord + 1, currentChar);
-            if (currentChar == '+' && grid[xCoord][yCoord + 1] == '|') count = Integer.MAX_VALUE;
-            if (grid[xCoord][yCoord + 1] == 'X' && currentChar == '-'){
-                if (charArrayExamination(grid)){ //а если плюсы над палкой типо //////   +---+
-                    return true;//////////////////////////////////////////////////////   -X--+
-                }
-                return false;
-                //count++;
-            }
-            else if ((grid[xCoord][yCoord + 1] == currentChar  && currentChar == '-') || (grid[xCoord][yCoord + 1] == '+' && currentChar != '|') || currentChar == 'X' || currentChar == '+') {
+            if (currentChar != '+' || oldXDiff != 0) {
                 if (lineSearch(grid, newPos, new Pair(xCoord, yCoord, currentChar))) count++;
             }
-            grid[xCoord][yCoord] = currentChar;
         }
-        if ((xCoord > 0 && oldXDiff != -1) && (currentChar != '+' || (currentChar == '+' && oldPos.getX() == currentPos.getX()))){
-            grid[xCoord][yCoord] = ' ';
+        if (xCoord > 0 && oldXDiff != -1){
             Pair newPos = new Pair(xCoord - 1, yCoord, currentChar);
-            if (currentChar == '+' && grid[xCoord - 1][yCoord] == '-') count = Integer.MAX_VALUE;
-            if (grid[xCoord - 1][yCoord] == 'X' && currentChar == '|') {
-                if (charArrayExamination(grid)){ //а если плюсы над палкой типо //////   +---+
-                    return true;//////////////////////////////////////////////////////   -X--+
-                }
-                return false;
-                //count++;
-            }
-            else if ((grid[xCoord - 1][yCoord] == currentChar && currentChar == '|') || (grid[xCoord - 1][yCoord] == '+' && currentChar != '-') || currentChar == 'X' || currentChar == '+'){
+            if (currentChar != '+' || oldYDiff != 0) {
                 if(lineSearch(grid, newPos, new Pair(xCoord, yCoord, currentChar))) count++;
             }
-            grid[xCoord][yCoord] = currentChar;
         }
-        if ((xCoord < grid.length - 1 && oldXDiff != 1) && (currentChar != '+' || (currentChar == '+' && oldPos.getX() == currentPos.getX()))){
-            grid[xCoord][yCoord] = ' ';
+        if (xCoord < grid.length - 1 && oldXDiff != 1){
             Pair newPos = new Pair(xCoord + 1, yCoord, currentChar);
-            if (currentChar == '+' && grid[xCoord + 1][yCoord] == '-') count = Integer.MAX_VALUE;
-            if (grid[xCoord + 1][yCoord] == 'X' && currentChar == '|'){
-                if (charArrayExamination(grid)){ //а если плюсы над палкой типо //////   +---+
-                    return true;//////////////////////////////////////////////////////   -X--+
-                }
-                return false;
-                //count++;
-            }
-            else if ((grid[xCoord + 1][yCoord] == currentChar && currentChar == '|') || (grid[xCoord + 1][yCoord] == '+' && currentChar != '-') || currentChar == 'X' || currentChar == '+'){
+            if (currentChar != '+' || oldYDiff != 0) {
                 if(lineSearch(grid, newPos, new Pair(xCoord, yCoord, currentChar))) count++;
             }
         }
-        if (count != 1){
-            return false;
-        }
-        return true;
+        return count != 1 ? false : true;
     }
 
 
@@ -186,7 +133,6 @@ class Pair{
     static Pair firstX;
     private int x;
     private int y;
-
     private char c;
 
     public Pair(int x, int y, char c) {
