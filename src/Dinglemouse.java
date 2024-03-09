@@ -72,11 +72,11 @@ public class Dinglemouse {
 //                }
 //                return true;
                 return true;
-//                if (charArrayExamination(grid)) {
-//                    return true;
-//                } else {
-//                    return false;
-//                }
+                if (charArrayExamination(grid)) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
         }
         grid[xCoord][yCoord] = ' ';
