@@ -71,7 +71,6 @@ public class Dinglemouse {
 //                    if (grid[xCoord + 1][yCoord] != ' ') return false;
 //                }
 //                return true;
-                return true;
                 if (charArrayExamination(grid)) {
                     return true;
                 } else {
