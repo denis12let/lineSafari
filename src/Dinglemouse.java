@@ -78,30 +78,37 @@ public class Dinglemouse {
                 }
             }
         }
-        grid[xCoord][yCoord] = ' ';
         if (yCoord > 0 && oldYDiff != -1){
+            grid[xCoord][yCoord] = ' ';
             Pair newPos = new Pair(xCoord, yCoord - 1, currentChar);
             if (currentChar != '+' || oldXDiff != 0){
                 if(lineSearch(grid, newPos, new Pair(xCoord, yCoord, currentChar))) count++;
             }
+            grid[xCoord][yCoord] = currentChar;
         }
         if (yCoord < grid[0].length - 1 && oldYDiff != 1){
+            grid[xCoord][yCoord] = ' ';
             Pair newPos = new Pair(xCoord, yCoord + 1, currentChar);
             if (currentChar != '+' || oldXDiff != 0) {
                 if (lineSearch(grid, newPos, new Pair(xCoord, yCoord, currentChar))) count++;
             }
+            grid[xCoord][yCoord] = currentChar;
         }
         if (xCoord > 0 && oldXDiff != -1){
+            grid[xCoord][yCoord] = ' ';
             Pair newPos = new Pair(xCoord - 1, yCoord, currentChar);
             if (currentChar != '+' || oldYDiff != 0) {
                 if(lineSearch(grid, newPos, new Pair(xCoord, yCoord, currentChar))) count++;
             }
+            grid[xCoord][yCoord] = currentChar;
         }
         if (xCoord < grid.length - 1 && oldXDiff != 1){
+            grid[xCoord][yCoord] = ' ';
             Pair newPos = new Pair(xCoord + 1, yCoord, currentChar);
             if (currentChar != '+' || oldYDiff != 0) {
                 if(lineSearch(grid, newPos, new Pair(xCoord, yCoord, currentChar))) count++;
             }
+            grid[xCoord][yCoord] = currentChar;
         }
         return count != 1 ? false : true;
     }

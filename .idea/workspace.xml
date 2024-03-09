@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="53c36df3-3361-470c-ae4b-2e791b535c17" name="Changes" comment="first big change(view rec)">
+    <list default="true" id="53c36df3-3361-470c-ae4b-2e791b535c17" name="Changes" comment="finall for only one line true&#10;FINALL">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Dinglemouse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dinglemouse.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +50,28 @@
       <option name="project" value="LOCAL" />
       <updated>1710015723398</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="finall for only one line">
+      <created>1710024429761</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1710024429761</updated>
+    </task>
+    <task id="LOCAL-00004" summary="finall for only one line true!!!">
+      <created>1710024605658</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1710024605658</updated>
+    </task>
+    <task id="LOCAL-00005" summary="finall for only one line true&#10;FINALL">
+      <created>1710024633491</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1710024633491</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -59,14 +79,17 @@
     <MESSAGE value="mini good" />
     <MESSAGE value="+- good but ugly" />
     <MESSAGE value="first big change(view rec)" />
-    <option name="LAST_COMMIT_MESSAGE" value="first big change(view rec)" />
+    <MESSAGE value="finall for only one line" />
+    <MESSAGE value="finall for only one line true!!!" />
+    <MESSAGE value="finall for only one line true&#10;FINALL" />
+    <option name="LAST_COMMIT_MESSAGE" value="finall for only one line true&#10;FINALL" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/Dinglemouse.java</url>
-          <line>40</line>
+          <line>41</line>
           <properties class="Dinglemouse" method="lineSearch">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
