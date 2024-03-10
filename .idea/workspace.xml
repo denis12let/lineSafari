@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="53c36df3-3361-470c-ae4b-2e791b535c17" name="Changes" comment="multy lines end">
+    <list default="true" id="53c36df3-3361-470c-ae4b-2e791b535c17" name="Changes" comment="complete">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Dinglemouse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Dinglemouse.java" afterDir="false" />
     </list>
@@ -16,7 +16,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="with_ambiguity" />
       </map>
     </option>
   </component>
@@ -100,7 +100,14 @@
       <option name="project" value="LOCAL" />
       <updated>1710099058923</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="one line with ambiguity, but ne konec">
+      <created>1710099946645</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1710099946645</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -114,28 +121,17 @@
     <MESSAGE value="finall for only one line true&#10;FINALL&#10;FINALL true" />
     <MESSAGE value="multy lines attempt" />
     <MESSAGE value="multy lines end" />
-    <option name="LAST_COMMIT_MESSAGE" value="multy lines end" />
+    <MESSAGE value="one line with ambiguity, but ne konec" />
+    <MESSAGE value="complete" />
+    <option name="LAST_COMMIT_MESSAGE" value="complete" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/Dinglemouse.java</url>
-          <line>41</line>
-          <properties class="Dinglemouse" method="lineSearch">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/Dinglemouse.java</url>
-          <line>109</line>
-          <properties class="Dinglemouse" method="charArrayExamination">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="7" />
+          <line>122</line>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
