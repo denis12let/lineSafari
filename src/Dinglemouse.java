@@ -5,6 +5,15 @@ public class Dinglemouse {
     public static int linesCounter;
     public static void main(String[] args) {
         Dinglemouse.linesCounter = 0;
+        //План
+        // -- убрать условие return count != 1 ? false : true; и сделать if (count == 0) return false;
+        // -- сделать так: Создать static flag в этом классе. Если возвращаешься по рекурсии от X, то flag = true, иначе - false (но подумать, что в рекурсии после X можно смотреть еще на другие символы и этот true станет false)
+        //1. Считаем кол-во X отдельной функцией и получаем это как массив координат
+        //2. Созддаем элемент класса ArrayList(чтоб добавлять из рекурсии можно было)
+        //3. В методе line(где просто ищем X-ы и обходим их) создаем массив ArrayList-ов, размером с количество X-ов
+        //4. Обходим X-ы -> добавляем при true координату в ArrayList -> делаем distinct этого массива, чтоб удалить повторы ->
+        //-> добавляем эти ArrayList-ы координат в массив ArrayList-ов из метода line
+        //5. Узнаем какой X к кому относится(придумать как)
         System.out.println("Hello world!");
         final char grid[][] = makeGrid(new String[] {
                 "      +------+",
@@ -18,6 +27,7 @@ public class Dinglemouse {
 
     public static boolean line(final char [][] grid) {
         Pair coordX = new Pair(); //коорды первого найденного X
+        ArrayList<Pair> sources = sourcesSearch(grid);
 //        ArrayList<Boolean> linesCorrects = new ArrayList<>(); //счетчик X и осмотр правильности направлений
         for (int i = 0; i < grid.length; i++){
             for (int j = 0; j < grid[0].length; j++){
@@ -71,11 +81,11 @@ public class Dinglemouse {
 //                    if (grid[xCoord + 1][yCoord] != ' ') return false;
 //                }
 //                return true;
-                if (charArrayExamination(grid)) {
-                    return true;
-                } else {
-                    return false;
-                }
+//                if (charArrayExamination(grid)) {
+//                    return true;
+//                } else {
+//                    return false;
+//                }
             }
         }
         if (yCoord > 0 && oldYDiff != -1){
@@ -133,6 +143,17 @@ public class Dinglemouse {
         }
         return count == grid.length * grid[0].length - 1;
     }
+
+    public static ArrayList<Pair> sourcesSearch(char[][] grid){
+        ArrayList<Pair> sourcesCoords = new ArrayList<>();
+        for (int i = 0; i < grid.length; i++){
+            for (int j = 0; j < grid[0].length; j++){
+                if (grid[i][j] == 'X') sourcesCoords.add(new Pair(i, j));
+            }
+        }
+        return sourcesCoords;
+    }
+
 }
 
 class Pair{
@@ -145,6 +166,11 @@ class Pair{
         this.x = x;
         this.y = y;
         this.c = c;
+    }
+
+    public Pair(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
     public Pair(){}
