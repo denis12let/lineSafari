@@ -2,9 +2,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Dinglemouse {
-    public static int linesCounter;
     public static void main(String[] args) {
-        Dinglemouse.linesCounter = 0;
         //План
         // -- убрать условие return count != 1 ? false : true; и сделать if (count == 0) return false;
         // -- сделать так: Создать static flag в этом классе. Если возвращаешься по рекурсии от X, то flag = true, иначе - false (но подумать, что в рекурсии после X можно смотреть еще на другие символы и этот true станет false)
@@ -16,11 +14,10 @@ public class Dinglemouse {
         //5. Узнаем какой X к кому относится(придумать как)
         System.out.println("Hello world!");
         final char grid[][] = makeGrid(new String[] {
-                "      +------+",
-                "      |      |",
-                "X-----+------+",
-                "      |       ",
-                "      X       ",
+                "     ++      ",
+                "    ++++     ",
+                "    ++++     ",
+                "   X-++-X    "
         });
         System.out.println(line(grid));
     }
@@ -28,31 +25,25 @@ public class Dinglemouse {
     public static boolean line(final char [][] grid) {
         Pair coordX = new Pair(); //коорды первого найденного X
         ArrayList<Pair> sources = sourcesSearch(grid);
-//        ArrayList<Boolean> linesCorrects = new ArrayList<>(); //счетчик X и осмотр правильности направлений
         for (int i = 0; i < grid.length; i++){
             for (int j = 0; j < grid[0].length; j++){
                if (grid[i][j] == 'X'){
                    coordX.setX(i);
                    coordX.setY(j);
-                   Pair.firstX = coordX;
-                   boolean result = lineSearch(grid, coordX, new Pair(-1, -1, '0'));
+
+                   boolean result = lineSearch(grid, coordX, new Pair(-1, -1, '0'), sources);
                    return result;
-//                   linesCorrects.add(result);
                }
             }
         }
-//        if (linesCorrects.size() % 2 != 0) return false;
-//        long trueCount = linesCorrects.stream()
-//                .filter(el -> el == true)
-//                .count();
-//        if (trueCount < linesCorrects.size() / 2) return false;
         return true;
     }
 
-    public static boolean lineSearch(char [][] grid, Pair currentPos, Pair oldPos){
+    public static boolean lineSearch(char [][] grid, Pair currentPos, Pair oldPos, ArrayList<Pair> sources){
         int xCoord = currentPos.getX(), yCoord = currentPos.getY(), count = 0;
         int oldXDiff = oldPos.getX() - xCoord, oldYDiff = oldPos.getY() - yCoord;
         char currentChar = grid[xCoord][yCoord], oldChar = oldPos.getX() != -1 ? oldPos.getC() : 'X';
+        if (sourceSearch(sources, oldPos) != -1) sources.remove(0);
         if (currentChar == ' ') return false;
         else if (currentChar == '-') {
             if (oldChar == '|') return false;
@@ -64,35 +55,42 @@ public class Dinglemouse {
             if (oldChar == '-' && oldYDiff == 0) return false;
             if (oldChar == '|' && oldXDiff == 0) return false;
         }else if (currentChar == 'X'){
+            int xCIndex;
             if (oldPos.getX() != -1){
                 if (oldChar == '-' && oldYDiff == 0) return false;
                 if (oldChar == '|' && oldXDiff == 0) return false;
-                if (oldChar == 'X') return true;
-//                if (yCoord > 0){
-//                    if (grid[xCoord][yCoord - 1] != ' ') return false;
-//                }
-//                if (yCoord < grid[0].length - 1){
-//                    if (grid[xCoord][yCoord + 1] != ' ') return false;
-//                }
-//                if (xCoord > 0){
-//                    if (grid[xCoord - 1][yCoord] != ' ') return false;
-//                }
-//                if (yCoord < grid.length){
-//                    if (grid[xCoord + 1][yCoord] != ' ') return false;
-//                }
-//                return true;
-//                if (charArrayExamination(grid)) {
-//                    return true;
-//                } else {
-//                    return false;
-//                }
+                if (oldChar == 'X') return true; //Исправить, чтобы при XX было и как новый путь, и как еще поиск дальше
+
+
+
+                xCIndex = sourceSearch(sources, currentPos);
+                sources.remove(xCIndex);
+                if (sources.size() == 0){
+                    sources.add(0, currentPos);
+                    if (charArrayExamination(grid)) return true;
+                    else return false;
+                }
+                grid[xCoord][yCoord] = ' ';
+                if (lineSearch(grid,
+                        new Pair(sources.get(0).getX(), sources.get(0).getY()),
+                        new Pair(-1, -1, '0'), sources)){
+                    grid[xCoord][yCoord] = 'X';
+                    sources.add(0, currentPos);
+                    return true;
+                }
+                grid[xCoord][yCoord] = 'X';
+                sources.add(0, currentPos);
+                return false;
             }
+//            else{
+//                sources.remove(0);
+//            }
         }
         if (yCoord > 0 && oldYDiff != -1){
             grid[xCoord][yCoord] = ' ';
             Pair newPos = new Pair(xCoord, yCoord - 1, currentChar);
             if (currentChar != '+' || oldXDiff != 0){
-                if(lineSearch(grid, newPos, new Pair(xCoord, yCoord, currentChar))) count++;
+                if(lineSearch(grid, newPos, new Pair(xCoord, yCoord, currentChar), sources)) count++;
             }
             grid[xCoord][yCoord] = currentChar;
         }
@@ -100,7 +98,7 @@ public class Dinglemouse {
             grid[xCoord][yCoord] = ' ';
             Pair newPos = new Pair(xCoord, yCoord + 1, currentChar);
             if (currentChar != '+' || oldXDiff != 0) {
-                if (lineSearch(grid, newPos, new Pair(xCoord, yCoord, currentChar))) count++;
+                if (lineSearch(grid, newPos, new Pair(xCoord, yCoord, currentChar), sources)) count++;
             }
             grid[xCoord][yCoord] = currentChar;
         }
@@ -108,7 +106,7 @@ public class Dinglemouse {
             grid[xCoord][yCoord] = ' ';
             Pair newPos = new Pair(xCoord - 1, yCoord, currentChar);
             if (currentChar != '+' || oldYDiff != 0) {
-                if(lineSearch(grid, newPos, new Pair(xCoord, yCoord, currentChar))) count++;
+                if(lineSearch(grid, newPos, new Pair(xCoord, yCoord, currentChar), sources)) count++;
             }
             grid[xCoord][yCoord] = currentChar;
         }
@@ -116,7 +114,7 @@ public class Dinglemouse {
             grid[xCoord][yCoord] = ' ';
             Pair newPos = new Pair(xCoord + 1, yCoord, currentChar);
             if (currentChar != '+' || oldYDiff != 0) {
-                if(lineSearch(grid, newPos, new Pair(xCoord, yCoord, currentChar))) count++;
+                if(lineSearch(grid, newPos, new Pair(xCoord, yCoord, currentChar), sources)) count++;
             }
             grid[xCoord][yCoord] = currentChar;
         }
@@ -154,10 +152,17 @@ public class Dinglemouse {
         return sourcesCoords;
     }
 
+    public static int sourceSearch(ArrayList<Pair> sources, Pair currentCoord){
+        for (int i = 0; i < sources.size(); i++){
+            if (sources.get(i).getX() == currentCoord.getX() && sources.get(i).getY() == currentCoord.getY()) return i;
+        }
+        return -1;
+    }
+
 }
 
 class Pair{
-    static Pair firstX;
+//    static Pair firstX;
     private int x;
     private int y;
     private char c;
